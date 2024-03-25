@@ -1,0 +1,8 @@
+disnake
+googletrans==4.0.0-rc1
+google-generativeai
+g4f[all]
+httpx
+ipinfo
+bs4
+lxml
