@@ -1,4 +1,4 @@
-import ipinfo, disnake, json
+import ipinfo, disnake, json, re
 from bs4 import BeautifulSoup
 from disnake.ext import commands
 from httpx import AsyncClient
@@ -20,6 +20,9 @@ class Ip(commands.Cog):
         ----------
         ip: IPアドレスを入力してください。(例: 1.2.3.4)
         """
+        if not re.search("^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$", ip):
+            await ctx.send("IPアドレスではないようです。")
+            return
         await ctx.send("Loading...")
         async with AsyncClient() as client:
             response = await client.get("https://scamalytics.com/ip/" + ip)
@@ -43,6 +46,9 @@ class Ip(commands.Cog):
         ----------
         ip: IPアドレスを入力してください。(例: 1.2.3.4)
         """
+        if not re.search("^((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})$", ip):
+            await ctx.send("IPアドレスではないようです。")
+            return
         details = await handler.getDetails(ip)
         d_all = details.all
 

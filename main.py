@@ -1,4 +1,7 @@
-import disnake
+import disnake, subprocess
+cmd = "python3 haihubot/main.py"
+subprocess.call(cmd.split())
+
 from disnake.ext import commands
 from commands import discord, minigame, jp, translate, features, ai, msgCmd, userCmd, count, url, ip
 

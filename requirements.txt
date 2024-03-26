@@ -6,3 +6,4 @@ httpx
 ipinfo
 bs4
 lxml
+discord.py
