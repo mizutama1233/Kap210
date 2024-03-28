@@ -28,4 +28,17 @@ bot.add_cog(userCmd.UserCmd(bot))
 bot.add_cog(url.Url(bot))
 bot.add_cog(ip.Ip(bot))
 
+@bot.slash_command()
+@commands.has_permissions(administrator=True)
+async def create_offer(self, ctx, member: disnake.Member):
+    category = ctx.guild.get_channel(1182907397283516612)
+    channel = await category.create_text_channel(f"{member.global_name}")
+
+    await channel.set_permissions(member, view_channel=True, send_messages=True, send_messages_in_threads=True, create_public_threads=True)
+    await ctx.send("Offer created!")
+@create_offer.error
+async def create_offer_error(self, ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("あなたに必要な権限がありません！")
+
 bot.run("MTE4NzY3NDM3NDE2MjEwMDI3NQ.GIM9Aj.uPoUM5o-QE0LbOjBxaNg2slGA2JfFsq7ee-17A")
