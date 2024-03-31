@@ -51,5 +51,10 @@ class AI(commands.Cog):
         """
         await ctx.send("Loading Gemini...")
         
-        response = gemini_pro_model.generate_content(prompt).text
+        response = gemini_pro_model.generate_content(
+            prompt,
+            generation_config = {
+                'max_output_tokens': 2000
+            }
+        ).text
         await ctx.edit_original_response(response)
