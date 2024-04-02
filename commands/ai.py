@@ -1,3 +1,5 @@
+import disnake, io
+import PIL.Image
 from disnake.ext import commands
 import google.generativeai as genai
 # from g4f.client import Client
@@ -5,6 +7,7 @@ import google.generativeai as genai
 # client = Client()
 genai.configure(api_key="AIzaSyBxhx-5K9DZ2yE0maubJpOmhX39PIRBD3A")
 gemini_pro_model = genai.GenerativeModel('gemini-pro')
+gemini_pro_vision = genai.GenerativeModel('gemini-pro-vision')
 
 class AI(commands.Cog):
     def __init__(self, bot):
@@ -43,18 +46,37 @@ class AI(commands.Cog):
     #     await ctx.edit_original_response(response.choices[0].message.content)
 
     @ai.sub_command(description="Geminiに質問します（このコマンドでは会話できません）")
-    async def gemini(self, ctx, prompt: str):
+    async def gemini(self, ctx, prompt: str, image: disnake.Attachment = None):
         """
         Parameters
         ----------
         prompt: 質問を入力してください！
+        image: 画像ファイルを添付してください（任意）
         """
         await ctx.send("Loading Gemini...")
         
-        response = gemini_pro_model.generate_content(
-            prompt,
-            generation_config = {
-                'max_output_tokens': 2000
-            }
-        ).text
-        await ctx.edit_original_response(response)
+        if image is None:
+            response = gemini_pro_model.generate_content(
+                prompt,
+                generation_config = {
+                    'max_output_tokens': 2000
+                }
+            ).text
+            await ctx.edit_original_response(response)
+        else:
+            try:
+                if image.content_type.startswith("image/"):
+                    image_data = await image.read()
+                    img = PIL.Image.open(io.BytesIO(image_data))
+                    response = gemini_pro_vision.generate_content(
+                        [prompt, img],
+                        generation_config = {
+                            'max_output_tokens': 2000
+                        }
+                    ).text
+                    await ctx.edit_original_response(response)
+                else:
+                    await ctx.edit_original_response("添付ファイルが画像ではありません")
+            except Exception as e:
+                print(e)
+                await ctx.edit_original_response("エラーが発生しました。")
