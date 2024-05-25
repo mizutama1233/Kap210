@@ -5,7 +5,7 @@ import google.generativeai as genai
 # from g4f.client import Client
 
 # client = Client()
-genai.configure(api_key="AIzaSyBxhx-5K9DZ2yE0maubJpOmhX39PIRBD3A")
+genai.configure(api_key="")
 gemini_pro_model = genai.GenerativeModel('gemini-pro')
 gemini_pro_vision = genai.GenerativeModel('gemini-pro-vision')
 
