@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from disnake.ext import commands
 from httpx import AsyncClient
 
-handler = ipinfo.getHandlerAsync('67d6dbbcdacd59')
+handler = ipinfo.getHandlerAsync('')
 
 class Ip(commands.Cog):
     def __init__(self, bot):
